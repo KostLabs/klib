@@ -5,13 +5,19 @@ import (
 	"time"
 )
 
+// RetryConfig holds configuration for NewClientWithRetry.
 type RetryConfig struct {
 	Config
+	// MaxAttempts is the total number of connection attempts before giving up. Defaults to 3.
 	MaxAttempts int
-	WaitBase    time.Duration
-	WaitMax     time.Duration
+	// WaitBase is the initial backoff duration between attempts. Defaults to 500ms.
+	WaitBase time.Duration
+	// WaitMax is the maximum backoff duration between attempts. Defaults to 5s.
+	WaitMax time.Duration
 }
 
+// NewClientWithRetry attempts to open a PostgreSQL connection up to
+// cfg.MaxAttempts times, applying exponential backoff between attempts.
 func NewClientWithRetry(cfg RetryConfig) (*Client, error) {
 	if cfg.MaxAttempts <= 0 {
 		cfg.MaxAttempts = 3

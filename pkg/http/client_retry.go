@@ -5,16 +5,21 @@ import (
 	"time"
 )
 
+// RetryConfig holds configuration for ClientWithRetry.
 type RetryConfig struct {
 	Config
+	// MaxAttempts is the total number of attempts before giving up. Defaults to 3.
 	MaxAttempts int
-	WaitBase    time.Duration
-	WaitMax     time.Duration
-	// RetryOn is a set of HTTP status codes that trigger a retry.
+	// WaitBase is the initial backoff duration between retries. Defaults to 500ms.
+	WaitBase time.Duration
+	// WaitMax is the maximum backoff duration between retries. Defaults to 5s.
+	WaitMax time.Duration
+	// RetryOn is the set of HTTP status codes that trigger a retry.
 	// Defaults to 429, 502, 503, 504 when nil.
 	RetryOn []int
 }
 
+// ClientWithRetry wraps Client with exponential-backoff retry logic.
 type ClientWithRetry struct {
 	inner    *http.Client
 	attempts int
@@ -23,6 +28,7 @@ type ClientWithRetry struct {
 	retryOn  map[int]struct{}
 }
 
+// NewClientWithRetry returns a ClientWithRetry configured with cfg.
 func NewClientWithRetry(cfg RetryConfig) *ClientWithRetry {
 	if cfg.Timeout == 0 {
 		cfg.Timeout = defaultTimeout
@@ -59,6 +65,7 @@ func NewClientWithRetry(cfg RetryConfig) *ClientWithRetry {
 	}
 }
 
+// Do executes the request, retrying on configured status codes with exponential backoff.
 func (c *ClientWithRetry) Do(req *http.Request) (*http.Response, error) {
 	wait := c.waitBase
 	var (
@@ -82,6 +89,7 @@ func (c *ClientWithRetry) Do(req *http.Request) (*http.Response, error) {
 		if _, shouldRetry := c.retryOn[resp.StatusCode]; !shouldRetry {
 			return resp, nil
 		}
+
 		resp.Body.Close()
 	}
 
