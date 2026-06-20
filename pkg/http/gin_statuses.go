@@ -175,6 +175,26 @@ func StatusInternalServerError(ctx *gin.Context, err error) {
 	})
 }
 
+func StatusNotImplemented(ctx *gin.Context, err error) {
+	ctx.JSON(http.StatusNotImplemented, Response{
+		Status: Status{
+			Code:  http.StatusNotImplemented,
+			Enum:  "NOT_IMPLEMENTED",
+			Error: err.Error(),
+		},
+	})
+}
+
+func StatusBadGateway(ctx *gin.Context, err error) {
+	ctx.JSON(http.StatusBadGateway, Response{
+		Status: Status{
+			Code:  http.StatusBadGateway,
+			Enum:  "BAD_GATEWAY",
+			Error: err.Error(),
+		},
+	})
+}
+
 func StatusServiceUnavailable(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusServiceUnavailable, Response{
 		Status: Status{
