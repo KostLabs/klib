@@ -31,6 +31,6 @@ func NewClient(cfg Config) *Client {
 }
 
 // Do executes the request and returns the response.
-func (c *Client) Do(req *http.Request) (*http.Response, error) {
-	return c.inner.Do(req)
+func (client *Client) Do(req *http.Request) (*http.Response, error) {
+	return client.inner.Do(req)
 }

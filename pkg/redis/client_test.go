@@ -25,7 +25,7 @@ func TestClient_SetAndGet(t *testing.T) {
 	ctx := context.Background()
 
 	// When
-	err := c.Set(ctx, "key", "value", time.Minute)
+	err := c.Set(ctx, "key", []byte("value"), time.Minute)
 
 	// Then
 	if err != nil {
@@ -61,7 +61,7 @@ func TestClient_TTLExpiry(t *testing.T) {
 	defer c.Close()
 
 	ctx := context.Background()
-	if err := c.Set(ctx, "expiring", "val", time.Second); err != nil {
+	if err := c.Set(ctx, "expiring", []byte("val"), time.Second); err != nil {
 		t.Fatalf("Set: %v", err)
 	}
 

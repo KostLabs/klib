@@ -30,7 +30,7 @@ func TestClientWithRetry_SetAndGet(t *testing.T) {
 	ctx := context.Background()
 
 	// When
-	err := c.Set(ctx, "key", "value", time.Minute)
+	err := c.Set(ctx, "key", []byte("value"), time.Minute)
 
 	// Then
 	if err != nil {
@@ -58,7 +58,7 @@ func TestClientWithRetry_RetriesOnTransientError(t *testing.T) {
 	defer c.Close()
 
 	ctx := context.Background()
-	if err := c.Set(ctx, "k", "v", time.Minute); err != nil {
+	if err := c.Set(ctx, "k", []byte("v"), time.Minute); err != nil {
 		t.Fatalf("Set: %v", err)
 	}
 

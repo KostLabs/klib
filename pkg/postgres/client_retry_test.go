@@ -25,7 +25,7 @@ func TestClientWithRetry_Connect(t *testing.T) {
 	}
 	defer c.Close()
 
-	if err := c.DB.Ping(); err != nil {
+	if err := c.DB().Ping(); err != nil {
 		t.Fatalf("Ping: %v", err)
 	}
 }

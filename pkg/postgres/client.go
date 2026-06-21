@@ -20,9 +20,19 @@ type Config struct {
 	SSLMode string
 }
 
-// Client wraps a *sql.DB connection to PostgreSQL.
+// DB is the interface implemented by *sql.DB.
+// Use this interface in constructors to satisfy the dependency-inversion principle.
+type DB interface {
+	Ping() error
+	Close() error
+	Query(query string, args ...any) (*sql.Rows, error)    //goverifier:ignore:any-type
+	QueryRow(query string, args ...any) *sql.Row           //goverifier:ignore:any-type
+	Exec(query string, args ...any) (sql.Result, error)    //goverifier:ignore:any-type
+}
+
+// Client wraps a DB connection to PostgreSQL.
 type Client struct {
-	DB *sql.DB
+	db DB
 }
 
 // NewClient opens and pings a PostgreSQL connection described by cfg.
@@ -36,19 +46,24 @@ func NewClient(cfg Config) (*Client, error) {
 		cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.DBName, cfg.SSLMode,
 	)
 
-	db, err := sql.Open("postgres", dsn)
+	sqlDB, err := sql.Open("postgres", dsn)
 	if err != nil {
 		return nil, err
 	}
 
-	if err := db.Ping(); err != nil {
+	if err := sqlDB.Ping(); err != nil {
 		return nil, fmt.Errorf("postgres ping: %w", err)
 	}
 
-	return &Client{DB: db}, nil
+	return &Client{db: sqlDB}, nil
+}
+
+// DB returns the underlying database connection.
+func (pgClient *Client) DB() DB {
+	return pgClient.db
 }
 
 // Close closes the underlying database connection pool.
-func (c *Client) Close() error {
-	return c.DB.Close()
+func (pgClient *Client) Close() error {
+	return pgClient.db.Close()
 }

@@ -32,16 +32,16 @@ func NewClient(cfg Config) *Client {
 }
 
 // Get returns the string value stored at key, or an error if the key does not exist.
-func (c *Client) Get(ctx context.Context, key string) (string, error) {
-	return c.inner.Get(ctx, key).Result()
+func (redisCli *Client) Get(ctx context.Context, key string) (string, error) {
+	return redisCli.inner.Get(ctx, key).Result()
 }
 
 // Set stores value at key with the given TTL. A TTL of 0 means no expiry.
-func (c *Client) Set(ctx context.Context, key string, value any, ttl time.Duration) error {
-	return c.inner.Set(ctx, key, value, ttl).Err()
+func (redisCli *Client) Set(ctx context.Context, key string, value []byte, ttl time.Duration) error {
+	return redisCli.inner.Set(ctx, key, value, ttl).Err()
 }
 
 // Close closes the underlying connection.
-func (c *Client) Close() error {
-	return c.inner.Close()
+func (redisCli *Client) Close() error {
+	return redisCli.inner.Close()
 }

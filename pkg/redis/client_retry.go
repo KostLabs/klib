@@ -47,26 +47,26 @@ func NewClientWithRetry(cfg RetryConfig) *ClientWithRetry {
 }
 
 // Get returns the string value stored at key, retrying on error with exponential backoff.
-func (c *ClientWithRetry) Get(ctx context.Context, key string) (string, error) {
-	return retry(c.attempts, c.waitBase, c.waitMax, func() (string, error) {
-		return c.inner.Get(ctx, key)
+func (retryClient *ClientWithRetry) Get(ctx context.Context, key string) (string, error) {
+	return retry(retryClient.attempts, retryClient.waitBase, retryClient.waitMax, func() (string, error) {
+		return retryClient.inner.Get(ctx, key)
 	})
 }
 
 // Set stores value at key with the given TTL, retrying on error with exponential backoff.
-func (c *ClientWithRetry) Set(ctx context.Context, key string, value any, ttl time.Duration) error {
-	_, err := retry(c.attempts, c.waitBase, c.waitMax, func() (struct{}, error) {
-		return struct{}{}, c.inner.Set(ctx, key, value, ttl)
+func (retryClient *ClientWithRetry) Set(ctx context.Context, key string, value []byte, ttl time.Duration) error {
+	_, err := retry(retryClient.attempts, retryClient.waitBase, retryClient.waitMax, func() (struct{}, error) {
+		return struct{}{}, retryClient.inner.Set(ctx, key, value, ttl)
 	})
 	return err
 }
 
 // Close closes the underlying connection.
-func (c *ClientWithRetry) Close() error {
-	return c.inner.Close()
+func (retryClient *ClientWithRetry) Close() error {
+	return retryClient.inner.Close()
 }
 
-func retry[T any](attempts int, waitBase, waitMax time.Duration, fn func() (T, error)) (T, error) {
+func retry[T any](attempts int, waitBase, waitMax time.Duration, fn func() (T, error)) (T, error) { //goverifier:ignore:any-type
 	var (
 		result T
 		err    error
