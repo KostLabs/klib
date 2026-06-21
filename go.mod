@@ -10,6 +10,8 @@ require (
 	github.com/redis/go-redis/v9 v9.20.1
 )
 
+require gopkg.in/yaml.v3 v3.0.1
+
 require (
 	github.com/bytedance/gopkg v0.1.3 // indirect
 	github.com/bytedance/sonic v1.15.0 // indirect
