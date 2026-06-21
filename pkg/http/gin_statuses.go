@@ -22,7 +22,7 @@ func StatusOK(ctx *gin.Context, data any) { //goverifier:ignore:any-type
 	ctx.JSON(http.StatusOK, Response{
 		Status: Status{
 			Code:    http.StatusOK,
-			Message: enums.StatusOk,
+			Message: enums.StatusOk.String(),
 		},
 		Data: data,
 	})
@@ -32,7 +32,7 @@ func StatusCreated(ctx *gin.Context, data any) { //goverifier:ignore:any-type
 	ctx.JSON(http.StatusCreated, Response{
 		Status: Status{
 			Code:    http.StatusCreated,
-			Message: enums.StatusCreated,
+			Message: enums.StatusCreated.String(),
 		},
 		Data: data,
 	})
@@ -42,7 +42,7 @@ func StatusAccepted(ctx *gin.Context, data any) { //goverifier:ignore:any-type
 	ctx.JSON(http.StatusAccepted, Response{
 		Status: Status{
 			Code:    http.StatusAccepted,
-			Message: enums.StatusAccepted,
+			Message: enums.StatusAccepted.String(),
 		},
 		Data: data,
 	})
@@ -52,7 +52,7 @@ func StatusNoContent(ctx *gin.Context) {
 	ctx.JSON(http.StatusNoContent, Response{
 		Status: Status{
 			Code:    http.StatusNoContent,
-			Message: enums.StatusNoContent,
+			Message: enums.StatusNoContent.String(),
 		},
 	})
 }
@@ -62,7 +62,7 @@ func StatusMovedPermanently(ctx *gin.Context, location string) {
 	ctx.JSON(http.StatusMovedPermanently, Response{
 		Status: Status{
 			Code:    http.StatusMovedPermanently,
-			Message: enums.StatusMovedPermanently,
+			Message: enums.StatusMovedPermanently.String(),
 		},
 	})
 }
@@ -72,7 +72,7 @@ func StatusFound(ctx *gin.Context, location string) {
 	ctx.JSON(http.StatusFound, Response{
 		Status: Status{
 			Code:    http.StatusFound,
-			Message: enums.StatusFound,
+			Message: enums.StatusFound.String(),
 		},
 	})
 }
@@ -81,7 +81,7 @@ func StatusNotModified(ctx *gin.Context) {
 	ctx.JSON(http.StatusNotModified, Response{
 		Status: Status{
 			Code:    http.StatusNotModified,
-			Message: enums.StatusNotModified,
+			Message: enums.StatusNotModified.String(),
 		},
 	})
 }
@@ -91,7 +91,7 @@ func StatusTemporaryRedirect(ctx *gin.Context, location string) {
 	ctx.JSON(http.StatusTemporaryRedirect, Response{
 		Status: Status{
 			Code:    http.StatusTemporaryRedirect,
-			Message: enums.StatusTemporaryRedirect,
+			Message: enums.StatusTemporaryRedirect.String(),
 		},
 	})
 }
@@ -101,7 +101,7 @@ func StatusPermanentRedirect(ctx *gin.Context, location string) {
 	ctx.JSON(http.StatusPermanentRedirect, Response{
 		Status: Status{
 			Code:    http.StatusPermanentRedirect,
-			Message: enums.StatusPermanentRedirect,
+			Message: enums.StatusPermanentRedirect.String(),
 		},
 	})
 }
@@ -110,7 +110,7 @@ func StatusBadRequest(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusBadRequest, Response{
 		Status: Status{
 			Code:    http.StatusBadRequest,
-			Message: enums.StatusBadRequest,
+			Message: enums.StatusBadRequest.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -120,7 +120,7 @@ func StatusUnauthorized(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusUnauthorized, Response{
 		Status: Status{
 			Code:    http.StatusUnauthorized,
-			Message: enums.StatusUnauthorized,
+			Message: enums.StatusUnauthorized.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -130,7 +130,7 @@ func StatusForbidden(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusForbidden, Response{
 		Status: Status{
 			Code:    http.StatusForbidden,
-			Message: enums.StatusForbidden,
+			Message: enums.StatusForbidden.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -140,7 +140,7 @@ func StatusNotFound(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusNotFound, Response{
 		Status: Status{
 			Code:    http.StatusNotFound,
-			Message: enums.StatusNotFound,
+			Message: enums.StatusNotFound.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -150,7 +150,7 @@ func StatusMethodNotAllowed(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusMethodNotAllowed, Response{
 		Status: Status{
 			Code:    http.StatusMethodNotAllowed,
-			Message: enums.StatusMethodNotAllowed,
+			Message: enums.StatusMethodNotAllowed.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -160,7 +160,7 @@ func StatusConflict(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusConflict, Response{
 		Status: Status{
 			Code:    http.StatusConflict,
-			Message: enums.StatusConflict,
+			Message: enums.StatusConflict.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -170,7 +170,7 @@ func StatusInternalServerError(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusInternalServerError, Response{
 		Status: Status{
 			Code:    http.StatusInternalServerError,
-			Message: enums.StatusInternalServerError,
+			Message: enums.StatusInternalServerError.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -180,7 +180,7 @@ func StatusNotImplemented(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusNotImplemented, Response{
 		Status: Status{
 			Code:    http.StatusNotImplemented,
-			Message: enums.StatusNotImplemented,
+			Message: enums.StatusNotImplemented.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -190,7 +190,7 @@ func StatusBadGateway(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusBadGateway, Response{
 		Status: Status{
 			Code:    http.StatusBadGateway,
-			Message: enums.StatusBadGateway,
+			Message: enums.StatusBadGateway.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -200,7 +200,7 @@ func StatusServiceUnavailable(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusServiceUnavailable, Response{
 		Status: Status{
 			Code:    http.StatusServiceUnavailable,
-			Message: enums.StatusServiceUnavailable,
+			Message: enums.StatusServiceUnavailable.String(),
 			Error:   err.Error(),
 		},
 	})
@@ -210,7 +210,7 @@ func StatusGatewayTimeout(ctx *gin.Context, err error) {
 	ctx.JSON(http.StatusGatewayTimeout, Response{
 		Status: Status{
 			Code:    http.StatusGatewayTimeout,
-			Message: enums.StatusGatewayTimeout,
+			Message: enums.StatusGatewayTimeout.String(),
 			Error:   err.Error(),
 		},
 	})

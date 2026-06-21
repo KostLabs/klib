@@ -1,24 +1,30 @@
 package enums
 
+type HTTPStatus string
+
+func (s HTTPStatus) String() string {
+	return string(s)
+}
+
 const (
-	StatusOk                  = "OK"
-	StatusCreated             = "CREATED"
-	StatusAccepted            = "ACCEPTED"
-	StatusNoContent           = "NO_CONTENT"
-	StatusMovedPermanently    = "MOVED_PERMANENTLY"
-	StatusFound               = "FOUND"
-	StatusNotModified         = "NOT_MODIFIED"
-	StatusTemporaryRedirect   = "TEMPORARY_REDIRECT"
-	StatusPermanentRedirect   = "PERMANENT_REDIRECT"
-	StatusBadRequest          = "BAD_REQUEST"
-	StatusUnauthorized        = "UNAUTHORIZED"
-	StatusForbidden           = "FORBIDDEN"
-	StatusNotFound            = "NOT_FOUND"
-	StatusMethodNotAllowed    = "METHOD_NOT_ALLOWED"
-	StatusConflict            = "CONFLICT"
-	StatusInternalServerError = "INTERNAL_SERVER_ERROR"
-	StatusNotImplemented      = "NOT_IMPLEMENTED"
-	StatusBadGateway          = "BAD_GATEWAY"
-	StatusServiceUnavailable  = "SERVICE_UNAVAILABLE"
-	StatusGatewayTimeout      = "GATEWAY_TIMEOUT"
+	StatusOk                  HTTPStatus = "OK"
+	StatusCreated             HTTPStatus = "CREATED"
+	StatusAccepted            HTTPStatus = "ACCEPTED"
+	StatusNoContent           HTTPStatus = "NO_CONTENT"
+	StatusMovedPermanently    HTTPStatus = "MOVED_PERMANENTLY"
+	StatusFound               HTTPStatus = "FOUND"
+	StatusNotModified         HTTPStatus = "NOT_MODIFIED"
+	StatusTemporaryRedirect   HTTPStatus = "TEMPORARY_REDIRECT"
+	StatusPermanentRedirect   HTTPStatus = "PERMANENT_REDIRECT"
+	StatusBadRequest          HTTPStatus = "BAD_REQUEST"
+	StatusUnauthorized        HTTPStatus = "UNAUTHORIZED"
+	StatusForbidden           HTTPStatus = "FORBIDDEN"
+	StatusNotFound            HTTPStatus = "NOT_FOUND"
+	StatusMethodNotAllowed    HTTPStatus = "METHOD_NOT_ALLOWED"
+	StatusConflict            HTTPStatus = "CONFLICT"
+	StatusInternalServerError HTTPStatus = "INTERNAL_SERVER_ERROR"
+	StatusNotImplemented      HTTPStatus = "NOT_IMPLEMENTED"
+	StatusBadGateway          HTTPStatus = "BAD_GATEWAY"
+	StatusServiceUnavailable  HTTPStatus = "SERVICE_UNAVAILABLE"
+	StatusGatewayTimeout      HTTPStatus = "GATEWAY_TIMEOUT"
 )
