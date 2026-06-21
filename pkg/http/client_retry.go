@@ -66,7 +66,10 @@ func NewClientWithRetry(cfg RetryConfig) *ClientWithRetry {
 }
 
 // Do executes the request, retrying on configured status codes with exponential backoff.
-func (retryClient *ClientWithRetry) Do(req *http.Request) (*http.Response, error) {
+// Any provided opts are applied to req before each attempt.
+func (retryClient *ClientWithRetry) Do(req *http.Request, opts ...RequestOption) (*http.Response, error) {
+	applyOptions(req, opts)
+
 	wait := retryClient.waitBase
 	var (
 		resp *http.Response

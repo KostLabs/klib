@@ -2,8 +2,8 @@ package enums
 
 type HTTPStatus string
 
-func (s HTTPStatus) String() string {
-	return string(s)
+func (status HTTPStatus) String() string {
+	return string(status)
 }
 
 const (

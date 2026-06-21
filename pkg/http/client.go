@@ -31,6 +31,15 @@ func NewClient(cfg Config) *Client {
 }
 
 // Do executes the request and returns the response.
-func (client *Client) Do(req *http.Request) (*http.Response, error) {
+// Any provided opts are applied to req before the call is made.
+func (client *Client) Do(req *http.Request, opts ...RequestOption) (*http.Response, error) {
+	applyOptions(req, opts)
 	return client.inner.Do(req)
+}
+
+// applyOptions applies all opts to req in order.
+func applyOptions(req *http.Request, opts []RequestOption) {
+	for _, opt := range opts {
+		opt(req)
+	}
 }
