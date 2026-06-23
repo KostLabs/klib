@@ -20,6 +20,42 @@ func (unexpectedStatusErr ErrUnexpectedStatus) Error() string {
 	return fmt.Sprintf("unexpected status %d", unexpectedStatusErr.StatusCode)
 }
 
+// GetJSON issues a GET to url and decodes the JSON response into out,
+// which must be a non-nil pointer.
+// If the server responds with Content-Encoding: gzip the body is decompressed
+// transparently; otherwise the raw body is decoded directly.
+// A non-2xx status code is returned as ErrUnexpectedStatus, which carries the
+// raw response body so callers can apply their own error parsing.
+// opts are applied to the request before it is sent (e.g. setting headers).
+func (client *Client) GetJSON(ctx context.Context, url string, out any, opts ...RequestOption) error { //goverifier:ignore:any-type
+	req, err := http.NewRequestWithContext(ctx, http.MethodGet, url, nil)
+	if err != nil {
+		return fmt.Errorf("build request: %w", err)
+	}
+
+	resp, err := client.Do(req, opts...)
+	if err != nil {
+		return fmt.Errorf("send request: %w", err)
+	}
+	defer func() { _ = resp.Body.Close() }()
+
+	reader, err := DecompressResponse(resp)
+	if err != nil {
+		return fmt.Errorf("decompress response: %w", err)
+	}
+	defer func() { _ = reader.Close() }()
+
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		rawBody, _ := io.ReadAll(reader)
+		return ErrUnexpectedStatus{StatusCode: resp.StatusCode, Body: rawBody}
+	}
+
+	if err := json.NewDecoder(reader).Decode(out); err != nil {
+		return fmt.Errorf("decode response: %w", err)
+	}
+	return nil
+}
+
 // PostJSON is intended for external API calls that return JSON responses.
 // It marshals body as JSON, POSTs it to url, and decodes the response into out,
 // which must be a non-nil pointer.
@@ -28,7 +64,7 @@ func (unexpectedStatusErr ErrUnexpectedStatus) Error() string {
 // A non-2xx status code is returned as ErrUnexpectedStatus, which carries the
 // raw response body so callers can apply their own error parsing.
 // opts are applied to the request before it is sent (e.g. setting headers).
-func (client *Client) PostJSON(ctx context.Context, url string, body any, out any, opts ...RequestOption) error {
+func (client *Client) PostJSON(ctx context.Context, url string, body any, out any, opts ...RequestOption) error { //goverifier:ignore:any-type
 	encoded, err := json.Marshal(body)
 	if err != nil {
 		return fmt.Errorf("marshal request body: %w", err)
